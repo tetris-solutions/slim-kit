@@ -3,6 +3,7 @@
 namespace Tetris\Services;
 
 use Tetris\Component;
+use Tetris\Exceptions\ApiException;
 use Slim\App;
 use Slim\Http\Request as ServerRequest;
 use Httpful\Request as HttpRequest;
