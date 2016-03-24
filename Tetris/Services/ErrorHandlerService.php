@@ -25,13 +25,16 @@ class ErrorHandlerService extends Component
         return function (Request $req, Response $res, $exception) use ($container) : Response {
             $thrown = ['message' => 'Application error'];
 
+            if ($exception instanceof ApiException) {
+                $thrown['message'] = $exception->getMessage();
+            }
+
             if ($container['flags']->isDebugMode) {
                 $thrown['stack'] = $exception->getTraceAsString();
                 $throw['code'] = $exception->getCode();
 
-                if ($exception instanceof ApiException) {
+                if (!empty($exception->parentException)) {
                     $thrown['parentException'] = $exception->parentException;
-                    $thrown['message'] = $exception->getMessage();
                 }
             }
 
