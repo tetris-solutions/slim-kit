@@ -73,8 +73,14 @@ class ApiService extends Component
         if ($this->serverRequest->hasHeader('Referer')) {
             $request->addHeader('Referer', $this->serverRequest->getHeader('Referer')[0]);
         } else {
-            $request->addHeader('Referer',
-                getenv('TKM_URL') . $this->serverRequest->getUri()->getPath());
+            $uri = $this->serverRequest->getUri();
+            $referer = getenv('TKM_URL') . $uri->getPath();
+
+            if ($uri->getQuery()) {
+                $referer .= '?' . $uri->getQuery();
+            }
+
+            $request->addHeader('Referer', $referer);
         }
 
         return $request;
