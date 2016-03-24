@@ -1,9 +1,8 @@
 <?php
-declare(strict_types = 1);
 
-namespace Tetris;
+namespace Tetris\Middlewares;
 
-use stdClass;
+use Tetris\Component;
 use Slim\Http\Response;
 use Slim\Http\Request;
 

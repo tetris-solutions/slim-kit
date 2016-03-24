@@ -1,7 +1,8 @@
 <?php
 
-namespace Tetris;
+namespace Tetris\Services;
 
+use Tetris\Component;
 use Slim\App;
 use Slim\Http\Request as ServerRequest;
 use Httpful\Request as HttpRequest;

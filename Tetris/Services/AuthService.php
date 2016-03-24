@@ -1,6 +1,8 @@
 <?php
 
-namespace Tetris;
+namespace Tetris\Services;
+
+use Tetris\Component;
 
 class AuthService extends Component
 {

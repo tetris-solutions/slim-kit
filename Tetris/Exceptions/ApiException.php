@@ -1,12 +1,12 @@
 <?php
 
-namespace Tetris;
+namespace Tetris\Exceptions;
 
 use Httpful\Request;
 use Httpful\Response;
 use Exception;
 
-class ApiException extends \Exception
+class ApiException extends Exception
 {
     public $parentException;
 

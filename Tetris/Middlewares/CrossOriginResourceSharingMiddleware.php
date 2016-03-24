@@ -1,7 +1,8 @@
 <?php
 
-namespace Tetris;
+namespace Tetris\Middlewares;
 
+use Tetris\Component;
 use Slim\Http\Response;
 use Slim\Http\Request;
 
