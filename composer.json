@@ -1,0 +1,22 @@
+{
+  "name": "tetris/slim-kit",
+  "description": "A collection of Slim Middlewares and Services",
+  "type": "library",
+  "license": "MIT",
+  "authors": [
+    {
+      "name": "Christian Amaral",
+      "email": "darthcas@gmail.com"
+    }
+  ],
+  "require": {
+    "php": ">=7.0.0",
+    "nategood/httpful": "^0.2.20",
+    "slim/slim": "^3.3"
+  },
+  "autoload": {
+    "psr-4": {
+      "Tetris\\": "src/"
+    }
+  }
+}
