@@ -1,6 +1,11 @@
 {
   "name": "tetris/slim-kit",
   "description": "A collection of Slim Middlewares and Services",
+  "keywords": [
+    "micro",
+    "rest"
+  ],
+  "homepage": "https://github.com/tetris-solutions/slim-kit",
   "type": "library",
   "license": "MIT",
   "authors": [
