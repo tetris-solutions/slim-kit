@@ -31,7 +31,8 @@ class ErrorHandlerService extends Component
 
             if ($container['flags']->isDebugMode) {
                 $thrown['stack'] = $exception->getTraceAsString();
-                $throw['code'] = $exception->getCode();
+                $thrown['code'] = $exception->getCode();
+                $thrown['message'] = $exception->getMessage();
 
                 if (!empty($exception->parentException)) {
                     $thrown['parentException'] = $exception->parentException;
