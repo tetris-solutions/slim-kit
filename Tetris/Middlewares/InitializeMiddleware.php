@@ -13,8 +13,8 @@ class InitializeMiddleware extends Component
         $debugPwd = getenv('DEBUG_PWD');
 
         if (
-            $req->getQueryParam('_debug') === $debugPwd
-            || (
+            getenv('NODE_ENV') !== 'production' ||
+            $req->getQueryParam('_debug') === $debugPwd || (
                 $req->hasHeader('Referer')
                 &&
                 strpos($req->getHeader('Referer')[0], "_debug={$debugPwd}") !== FALSE
