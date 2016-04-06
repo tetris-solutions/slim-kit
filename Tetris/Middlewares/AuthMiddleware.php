@@ -5,6 +5,8 @@ namespace Tetris\Middlewares;
 use Tetris\Component;
 use Slim\Http\Response;
 use Slim\Http\Request;
+use Tetris\Services\ApiService;
+use Tetris\Services\AuthService;
 
 class AuthMiddleware extends Component
 {
@@ -14,7 +16,11 @@ class AuthMiddleware extends Component
          * @var ApiService $api
          */
         $api = $this->container['api'];
-        $this->container['auth']->user = $api->fetchCurrentUser();
+        /**
+         * @var AuthService $auth
+         */
+        $auth = $this->container['auth'];
+        $auth->user = $api->fetchCurrentUser();
 
         return $next($req, $res);
     }

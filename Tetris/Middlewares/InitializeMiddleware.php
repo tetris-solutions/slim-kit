@@ -5,6 +5,7 @@ namespace Tetris\Middlewares;
 use Tetris\Component;
 use Slim\Http\Response;
 use Slim\Http\Request;
+use Tetris\Services\FlagsService;
 
 class InitializeMiddleware extends Component
 {
@@ -20,7 +21,11 @@ class InitializeMiddleware extends Component
                 strpos($req->getHeader('Referer')[0], "_debug={$debugPwd}") !== FALSE
             )
         ) {
-            $this->container['flags']->isDebugMode = true;
+            /**
+             * @var FlagsService $flags
+             */
+            $flags = $this->container['flags'];
+            $flags->enableDebugMode();
         }
 
         return $next($req, $res);

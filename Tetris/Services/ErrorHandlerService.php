@@ -2,6 +2,7 @@
 
 namespace Tetris\Services;
 
+use Slim\Http\Uri;
 use Tetris\Exceptions\ApiException;
 use Tetris\Component;
 use Slim\Http\Response;
@@ -29,7 +30,12 @@ class ErrorHandlerService extends Component
                 $thrown['message'] = $exception->getMessage();
             }
 
-            if ($container['flags']->isDebugMode) {
+            /**
+             * @var FlagsService $flags
+             */
+            $flags = $this->container['flags'];
+
+            if ($flags->isDebugMode()) {
                 $thrown['stack'] = $exception->getTraceAsString();
                 $thrown['code'] = $exception->getCode();
                 $thrown['message'] = $exception->getMessage();
@@ -44,8 +50,20 @@ class ErrorHandlerService extends Component
             if ($exception->getCode() >= 400 && $exception->getCode() < 600) {
                 $code = $exception->getCode();
             }
+            /**
+             * @var Response $response
+             */
+            $response = $container['response'];
 
-            return $container['response']->withJson($thrown, $code);
+            if ($flags->isRedirectMode()) {
+
+                $uri = Uri::createFromString($flags->getRedirectUrl())
+                    ->withQuery("error=" . base64_encode("{$exception->getCode()} - {$exception->getMessage()}"));
+
+                return $res->withRedirect($uri);
+            }
+
+            return $response->withJson($thrown, $code);
         };
     }
 }
