@@ -88,10 +88,23 @@ class ApiService extends Component
 
     /**
      * @param HttpResponse $response
+     * @return array
+     * @throws ApiException
+     */
+    protected function parseArrayBody(HttpResponse $response): array
+    {
+        if (!isset($response->body) || !is_array($response->body)) {
+            throw new ApiException($response);
+        }
+        return $response->body;
+    }
+
+    /**
+     * @param HttpResponse $response
      * @return \stdClass
      * @throws ApiException
      */
-    protected function parseBody(HttpResponse $response): \stdClass
+    protected function parseObjectBody(HttpResponse $response): \stdClass
     {
         if (empty($response->body) || $response->body instanceof \stdClass === FALSE) {
             throw new ApiException($response);
@@ -120,6 +133,6 @@ class ApiService extends Component
             ->uri(getenv('USER_API_URL'))
             ->send();
 
-        return $this->parseBody($this->parseResponse($response));
+        return $this->parseObjectBody($this->parseResponse($response));
     }
 }
