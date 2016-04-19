@@ -62,7 +62,7 @@ class ApiService extends Component
         }
     }
 
-    private function createRequest(): HttpRequest
+    protected function createRequest(): HttpRequest
     {
         $request = HttpRequest::init();
 
@@ -91,7 +91,7 @@ class ApiService extends Component
      * @return \stdClass
      * @throws ApiException
      */
-    private function parseBody(HttpResponse $response): \stdClass
+    protected function parseBody(HttpResponse $response): \stdClass
     {
         if (empty($response->body) || $response->body instanceof \stdClass === FALSE) {
             throw new ApiException($response);
@@ -104,7 +104,7 @@ class ApiService extends Component
      * @return HttpResponse
      * @throws ApiException
      */
-    private function parseResponse(HttpResponse $response): HttpResponse
+    protected function parseResponse(HttpResponse $response): HttpResponse
     {
         if ($response->code !== 200) {
             throw new ApiException($response);
