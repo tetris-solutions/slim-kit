@@ -12,6 +12,11 @@ class FlagsService extends Component
     private $debugMode = FALSE;
 
     /**
+     * @var string $locale
+     */
+    private $locale = 'en';
+
+    /**
      * @var string|null
      */
     private $redirectUrl = NULL;
@@ -39,5 +44,21 @@ class FlagsService extends Component
     public function getRedirectUrl()
     {
         return $this->redirectUrl;
+    }
+
+    public function setLocale($locale)
+    {
+        $availableLocales = defined('AVAILABLE_LOCALES')
+            ? constant('AVAILABLE_LOCALES')
+            : ['en', 'pt-BR'];
+
+        if (in_array($locale, $availableLocales)) {
+            $this->locale = $locale;
+        }
+    }
+
+    public function getLocale(): string
+    {
+        return $this->locale;
     }
 }

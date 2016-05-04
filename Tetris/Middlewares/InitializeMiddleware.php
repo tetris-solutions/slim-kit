@@ -12,6 +12,10 @@ class InitializeMiddleware extends Component
     public function __invoke(Request $req, Response $res, callable $next): Response
     {
         $debugPwd = getenv('DEBUG_PWD');
+        /**
+         * @var FlagsService $flags
+         */
+        $flags = $this->container['flags'];
 
         if (
             getenv('NODE_ENV') !== 'production' ||
@@ -21,11 +25,11 @@ class InitializeMiddleware extends Component
                 strpos($req->getHeader('Referer')[0], "_debug={$debugPwd}") !== FALSE
             )
         ) {
-            /**
-             * @var FlagsService $flags
-             */
-            $flags = $this->container['flags'];
             $flags->enableDebugMode();
+        }
+
+        if ($req->hasHeader('accept-language')) {
+            $flags->setLocale($req->getHeader('accept-language')[0]);
         }
 
         return $next($req, $res);
