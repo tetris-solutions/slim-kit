@@ -70,7 +70,7 @@ class ApiService extends Component
 
             $this->authPrefix = $parts[0];
 
-            return explode(' ', $header);
+            return $parts[1];
         } else {
             return '';
         }
