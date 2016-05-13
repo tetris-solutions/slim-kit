@@ -22,6 +22,11 @@ class ApiService extends Component
     private $accessToken;
 
     /**
+     * @var string $authPrefix
+     */
+    private $authPrefix = 'Bearer';
+
+    /**
      * ApiService constructor.
      * @param App $app
      */
@@ -56,7 +61,16 @@ class ApiService extends Component
     private function getAccessTokenFromHeader(): string
     {
         if ($this->serverRequest->hasHeader('Authorization')) {
-            return str_replace('Bearer ', '', $this->serverRequest->getHeader('Authorization')[0]);
+            $header = $this->serverRequest->getHeader('Authorization')[0];
+            $parts = explode(' ', $header);
+
+            if (count($parts) === 1) {
+                array_unshift($parts, 'Bearer');
+            }
+
+            $this->authPrefix = $parts[0];
+
+            return explode(' ', $header);
         } else {
             return '';
         }
@@ -67,7 +81,7 @@ class ApiService extends Component
         $request = HttpRequest::init();
 
         if ($this->accessToken) {
-            $request->addHeader('Authorization', "Bearer {$this->accessToken}");
+            $request->addHeader('Authorization', "{$this->authPrefix} {$this->accessToken}");
         }
 
         if ($this->serverRequest->hasHeader('Referer')) {
