@@ -24,7 +24,11 @@ class Slimmest extends App
         $container['auth'] = new AuthService($this);
         $container['api'] = new ApiService($this);
 
-        $this->add(new AuthMiddleware($this));
+        $this->add(
+            isset($container['settings']['authMiddleware'])
+                ? $container['settings']['authMiddleware']
+                : new AuthMiddleware($this)
+        );
         $this->add(new CrossOriginResourceSharingMiddleware($this));
         $this->add(new InitializeMiddleware($this));
 
