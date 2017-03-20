@@ -20,7 +20,14 @@ class AuthMiddleware extends Component
          * @var AuthService $auth
          */
         $auth = $this->container['auth'];
-        $auth->user = $api->fetchCurrentUser();
+        $userResp = $api->requestUser();
+
+        if (isset($userResp->headers['authorization'])) {
+            $authHeader = $userResp->headers['authorization'];
+            $res = $res->withHeader('Authorization', $authHeader);
+        }
+
+        $auth->user = $api->responseToObject($userResp);
 
         return $next($req, $res);
     }

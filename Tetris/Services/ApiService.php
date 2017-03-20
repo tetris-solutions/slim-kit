@@ -2,6 +2,8 @@
 
 namespace Tetris\Services;
 
+use Httpful\Response;
+use stdClass;
 use Tetris\Component;
 use Tetris\Exceptions\ApiException;
 use Slim\App;
@@ -140,13 +142,21 @@ class ApiService extends Component
         return $response;
     }
 
-    public function fetchCurrentUser(): \stdClass
+    function requestUser(): Response
     {
-        $response = $this->createRequest()
+        return $this->createRequest()
             ->method(Http::GET)
             ->uri(getenv('USER_API_URL'))
             ->send();
+    }
 
-        return $this->parseObjectBody($this->parseResponse($response));
+    function responseToObject(Response $res): stdClass
+    {
+        return $this->parseObjectBody($this->parseResponse($res));
+    }
+
+    function fetchCurrentUser(): stdClass
+    {
+        return $this->responseToObject($this->requestUser());
     }
 }
