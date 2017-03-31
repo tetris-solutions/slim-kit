@@ -3,28 +3,13 @@
 namespace Tetris\Exceptions;
 
 use Httpful\Request;
-use Httpful\Response;
 use Exception;
 
-class ApiException extends Exception
+class ApiException extends SafeException
 {
-    public $parentException;
-
-    public function __construct(Response $response, $message = 'API Error', $code = 500, Exception $previous = null)
+    public function __construct($response, $message = 'API Error', $code = 500, Exception $previous = null)
     {
-        $responseMessage = !empty($response->body->message) && is_string($response->body->message)
-            ? $response->body->message
-            : NULL;
-
-        if ($response->code >= 400 && $response->code < 600) {
-            $code = $response->code;
-        }
-
-        if ($responseMessage) {
-            $message = $responseMessage;
-        }
-
-        parent::__construct($message, $code, $previous);
+        parent::__construct($response, $message, $code, $previous);
 
         /**
          * @var Request
@@ -32,7 +17,7 @@ class ApiException extends Exception
         $request = $response->request;
 
         $this->parentException = [
-            'message' => $responseMessage,
+            'message' => $this->getMessage(),
             'statusCode' => $response->code,
             'request' => [
                 'method' => $request->method,

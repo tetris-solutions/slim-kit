@@ -3,11 +3,11 @@
 namespace Tetris\Services;
 
 use Slim\Http\Uri;
-use Tetris\Exceptions\ApiException;
 use Tetris\Component;
 use Slim\Http\Response;
 use Slim\Http\Request;
 use Slim\Container;
+use Tetris\Exceptions\SafeException;
 
 class ErrorHandlerService extends Component
 {
@@ -26,7 +26,7 @@ class ErrorHandlerService extends Component
         return function (Request $req, Response $res, $exception) use ($container) : Response {
             $thrown = ['message' => 'Application error'];
 
-            if ($exception instanceof ApiException) {
+            if ($exception instanceof SafeException) {
                 $thrown['message'] = $exception->getMessage();
             }
 
